@@ -22,13 +22,6 @@ from archef import  models
 
 def user_login(request):
     failed=0
-    models.Shab.objects.all().delete()
-    print("done models.Shab.all().delete() ")
-    models.Decision.objects.all().delete()
-    print("done models.Decision.all().delete() ")
-    models.DecisionRecord.objects.all().delete()
-    print("done models.DecisionRecord.all().delete() ")
-   
     context={}
     if request.method == 'POST':
 
