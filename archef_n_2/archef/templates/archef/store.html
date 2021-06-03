@@ -1,0 +1,403 @@
+﻿<!DOCTYPE html>
+{% extends "archef/base.html" %}
+{% load static %}
+<script src="{% static 'archef/store.js' %}"></script>
+
+
+{% block body_block %}
+
+        <!-- <div class=' row'>
+
+               <a href={%  url 'log_out'%}><button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">تسجيل الخروج</button></a>
+
+        </div> -->
+          <!--  adjust window height and size on login -->
+         <div style="direction:rtl" >
+
+                 <div class="row">
+                    <h3 class="  m-2 mb-4 btn-lg  btn-block   bg-light  disabled text-center font-weight-bold" > تسجيل قرارت السيد  مــديــر الـمــنطقة </h3>
+                </div>
+                <div style="border-bottom:3px solid black   ;"></div>
+                <fieldset >
+                <legend style="text-align:right;"   > بيانات القرار</legend>
+
+                    <div class="row ml-auto form-group mt-4 ">
+
+                    <div class="row">
+                      <form method="post" target="_self"  id="dec_search" >
+                          {% csrf_token %}
+                          <label for="decision_num_search" class="col-sm-2 btn-lg bg-light  disabled text-center ml-1" > رقم القرار </label>
+                          <input  id ="decision_num_search" type='number' name="decision_num_search" min="1"  class='col-sm-4  form-control-lg ml-4 ' pattern="[0-9]+"
+                                                value="{{decision.dec_num}}"    palceholder='0'  title="رقم القرار" required >
+
+
+
+                                    <label for="year_search" class="col-sm-1 btn-lg bg-light  disabled text-center m-1" >لسنة  </label>
+                            <input   id ="year_search" type='number' class='col-sm-2  form-control-lg ml-4 '   name="year_search" value="{{decision.dec_year}}"    >
+                                                <input type="submit"   style="visibility: hidden;" >
+
+
+                       </form>
+                    </div>
+                       <!--
+
+                            <label for="year" class="col-sm-1 btn-md bg-light  disabled text-center m-1" >لسنة  </label>
+                        <input   id ="year" type='number' class='col-sm-2  form-control-lg ml-4 '  value="{{decision.dec_year}}"    >
+
+                       -->
+
+
+
+
+
+                        <!-- this will be a pop up form or modal to create a new decision -->
+                        <input type="button" value="اضافة قرار جديد " class="    btn-primary disabled text-center font-weight-bold ml-4"
+                                data-toggle="modal" data-target="#staticBackdrop" >
+                       <!-- this will be a pop up form or modal to create a new decision -->
+                       <form method="post" target="_self"  id="dec_search" >
+                            {% csrf_token %}
+                            <input type="submit" value="اخر قرار تم تسجيله" class=" btn-sm    btn-warning disabled text-center font-weight-bold ml-4" name='last_decision'>
+                       </form>
+                         <!-- Define the modal here  , THIS MODEL TO ADD A NEW DECISION -->
+
+                        <div class="modal fade" id='staticBackdrop' data-backdrop="static" data-keyboard="false"
+                                tabindex="-1" arai-labeledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered  modal-lg ">
+
+                                <div class="modal-content">
+
+                                    <!-- header title -->
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-centered"  id="staticBackdropLabel" > إضافة قرار جديد </h5>
+
+                                    </div>
+
+                                    <!-- Modal body, here defining the form -->
+                                    <div class="modal-body" >
+
+                                        <!-- form model -->
+                                        <form method="post" id="new_decision_form" target="_self" enctype="multipart/form-data">
+                                        {%csrf_token%}
+                                            <div class="form-group">
+
+                                                <div class="row">
+                                                    <label for="name" class="col-sm-2 bg-light  disabled text-center m-1" > رقم القرار </label>
+                                                    <input  id ="name" name="decision_num" type='number'  value="{{new_decision}}" class='col-sm-3  form-control-lg ml-4 '  required >
+
+
+                                                    <label for="year" class="col-sm-2 btn-md bg-light  disabled text-center m-1" >لسنة  </label>
+                                                    <input  id ="year"  name ="decision_year" type='number' class='col-sm-3  form-control-lg  ml-4' pattern="[0-9]{4}"  value="{% now 'Y'%}" required  >
+
+                                                </div>
+
+
+                                                <div class="row mr-2 form-group mt-2">
+
+                                                    <label for="name" class="col-sm-3 bg-light  disabled text-center m-2" > تاريخ القرار </label>
+                                                    <label for="year" class="col-sm-3 btn-md bg-light  disabled text-center m-2  " >الفرع المختص  </label>
+
+                                                </div>
+
+
+                                                <div class="row mr-2 form-group ">
+                                                        <input  id ="name" type='date'  name= "decision_date"class='col-sm-3 form-control-lg ml-4 '  value=""  >
+
+                                                        <!-- THis Will be a list for now after that it will be a text choosen manullay depend on user type -->
+                                                        <!-- <input  id ="year" type='text' class='col-sm-3 form-control-lg  ml-4'  value=""  >-->
+
+                                                        <div class="col-sm-3 form-control-lg  ml-4">
+                                                            <select class="form-control" name="part">
+
+                                                            <option value="الصالة">الصالة</option>
+                                                            <option  value="المجمع" selected>المجمع</option>
+                                                            <option value="الانتقاء والتوجيه">الانتقاء</option>
+                                                            <option value="المعسكر">المعسكر</option>
+                                                            <option value=" قومسيون الطبى"> القومسيون الطبى</option>
+                                                            <option value=" الأمن "> الأمن</option>
+                                                            <option value=" القضاء"> القضاء</option>
+                                                            </select>
+							                            </div>
+
+                                                        <label for="url" class="col-sm-2 btn-md bg-light  disabled text-center  " >صورة القرار</label>
+                                                        <input type="file" placeholder="نسخة القرار" class=" btn-md  col-sm-2" id="url" name="url" required>
+
+
+
+
+                                                </div>
+
+                                            <!-- form div-->
+                                            </div>
+                                        </form>
+                                    <!-- 4- modal body div -->
+                                    </div>
+
+                                     <!-- Modal footer  -->
+                                    <div class="modal-footer ">
+                                        <button type="submit" class="btn btn-primary mx-4" form="new_decision_form" name="submit_new_decision" value='1'>حفظ</button>
+                                        <button type="button" class="btn btn-secondary mx-4" data-dismiss="modal" form="new_decision_form">إغلاق</button>
+
+
+                                    </div>
+
+                                 <!--3- modal conent div-->
+                                </div>
+                            <!--2- modal dialog scrollale-->
+                            </div>
+                            <!--1- modal fade main one -->
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="row ml-auto form-group mt-4 mx-1">
+                        <label for="name" class="col-sm-3 btn-md bg-light  disabled text-center m-2" > تاريخ القرار </label>
+                        <label for="year" class="col-sm-3 btn-md bg-light  disabled text-center m-2" >الفرع المخنص  </label>
+
+                    </div>
+
+
+                    <div class="row ml-auto form-group mx-1">
+                            <input  id ="name" type='text' class='col-sm-3  form-control-lg ml-4'  value="{{decision.dec_date}}" readonly >
+                            <input   id ="year" type='text' class='col-sm-3 form-control-lg ml-4 '  value="{{decision.related_part}}" readonly >
+                        {% if  decision.decision_file %}
+                        <a  align="center"  class="form-control col-sm-2  btn-info btn-lg m-1" target="_blank" href="{{ decision.decision_file.url }}"> معاينة صورة القرار </a>
+                        {% endif %}
+
+                        {% if decision.id %}
+                        <a href="{%  url 'archef:edit_d' decision.id%}"> <input type="button"  value ="تعديل القرار"  class=" form-control   btn-warning m-1" ></a>
+                        {%endif%}
+                    </div>
+                    </fieldset>
+
+                    {% if decision %}
+                     <div style="border-bottom:3px solid yellow   ;"></div>
+                     <div class="row ml-auto form-group mt-4 mx-1">
+                          <label for="name" class="col-sm-3 bg-light  btn-lg disabled text-center m-1" >مسجل القرار</label>
+                          <label for="name" class="col-sm-3   btn-lg btn-info disabled text-center m-1" >{{decision.user.user.first_name}} </label>
+                     </div>
+                     {%endif%}
+                      <div style="border-bottom:3px solid yellow   ;" class="mb-2"></div>
+                    <div class="row ml-auto form-group mt-2 mx-1">
+                        <label for="name" class="col-sm-3 bg-light  btn-lg disabled text-center m-1" > بنود الـقــرار </label>
+
+                        <!-- this will be a pop up form or modal to add new records to the decision -->
+                         <!-- this will be a pop up form or modal to create a new decision -->
+                        <input type="button" value="اضافة بيان مواطن " class=" btn-lg    btn-primary col-sm-4 disabled text-center font-weight-bold ml-4 m-1"
+                                data-toggle="modal" data-target="#staticBackdrop_2" >
+
+                        <!-- Define the modal here  , THIS MODEL TO ADD A NEW DECISION -->
+
+                        <div class="modal show" id='staticBackdrop_2' data-backdrop="static" data-keyboard="false"
+                                tabindex="-1" arai-labeledby="staticBackdropLabel_2" aria-hidden="true">
+                            <div class="modal-dialog   modal-dialog-centered    modal-lg " >
+
+                                <div class="modal-content">
+
+                                    <!-- header title -->
+                                    <div class="modal-header">
+                                        <h5 class="modal-title "  id="staticBackdropLabel_2" > تسجيل بيانات مواطن </h5>
+
+                                    </div>
+
+                                    <!-- Modal body, here defining the form -->
+                                    <div class="modal-body" >
+
+                                    {%if not_searched %}
+                                      <form class="" action="" method="post"  target="_self">
+                                        {%csrf_token%}
+                                        <div class="form-group">
+
+                                            <div class="row mr-4" >
+                                                <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > السنة </h3>
+                                                <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > المركز </h3>
+                                                <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold " > المسلسل</h3>
+                                            </div>
+
+
+
+                                            <div class="row mr-4 form-group" >
+                                                <input type='number' class='col-2 form-control m-1 text-right'  name='year'    required  >
+                                                <input type='number' class='col-2 form-control m-1 text-right' name='markaz'  required >
+                                                <input type='number' class='col-2 form-control m-1 text-right'  name='mosalsal' required>
+                                                <!-- It will be added later -->
+                                                <!-- <input type="submit"  name='submit_sub_form' value ="بحث"  class="  m-1 btn  bg-light   text-center font-weight-bold"  form="form_sub"> -->
+
+
+                                            </div>
+                                            <input type="submit"  name="submit_sub_form"  style="visibility: hidden;" >
+                                          </div>
+                                      </form>
+
+
+                                    {% else %}
+                                        <!-- form model -->
+                                        <form method="post" id="new_record_form" target="_self"  >
+                                        {%csrf_token%}
+                                            <div class="form-group">
+
+                                                <div class="row mr-4" >
+                                                    <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > السنة </h3>
+                                                    <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > المركز </h3>
+                                                    <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold " > المسلسل</h3>
+                                                </div>
+
+
+
+                                                <div class="row mr-4 form-group" >
+                                                    <input type='number' class='col-2 form-control m-1 text-right'  name='year'  form ="new_record_form" value="{{shab.year}}"  required  >
+                                                    <input type='number' class='col-2 form-control m-1 text-right' name='markaz' form ="new_record_form"   value="{{shab.markaz}}"  required >
+                                                    <input type='number' class='col-2 form-control m-1 text-right'  name='mosalsal'form ="new_record_form"  value="{{shab.mosalsal}}"  required>
+                                                    <!-- It will be added later -->
+                                                    <!-- <input type="submit"  name='submit_sub_form' value ="بحث"  class="  m-1 btn  bg-light   text-center font-weight-bold"  form="form_sub"> -->
+
+
+                                                </div>
+                                                <div class="row  mr-2 form-group" >
+                                                    <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > الإسم </h3>
+                                                    <input type='text' class=' col-6 form-control m-1 text-right'  name='m_name' id="m_name"  value="{{shab.name}}" required >
+
+                                                </div>
+
+                                                <div class="row  mr-2 form-group" >
+                                                    <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > الرقم القومى </h3>
+                                                    <input type='number' class=' col-6 form-control m-1 text-right'  name='national_num' id="national_num"   value="{{shab.nat_id}}" required >
+                                                </div>
+
+                                                <div class="row mr-2 form-group ">
+
+                                                        <h3 class=" col-sm-3 m-1 btn-lg  bg-light  disabled text-center font-weight-bold " > نوع التعديل</h3>
+
+                                                        <!--  NO NO ,THis Will be a list for now after that it will be a text choosen manullay depend on user type -->
+
+                                                        <div class="col-sm-6 form-control-lg  ml-4">
+                                                            <select class="form-control" name="change_type" required>
+
+                                                            <option value="تغيير سلاح "> تغيير سلاح </option>
+                                                            <option value="تسجيل بيانات 34">تسجيل بيانات 34</option>
+                                                            <option value=" فك بصمة"> فك بصمة</option>
+                                                            <option value="تغير الحالة">تغير الحالة</option>
+                                                            <option value="تسجيل بيانات عدم اللياقة الطبية">تسجيل بيانات عدم اللياقة الطبية</option>
+                                                            <option value=" اعادة طباعة 1 س "> اعادة طباعة 1 س</option>
+                                                            <option value=" تعديل ميعاد اللجنة العليا"> تعديل ميعاد اللجنة العليا</option>
+                                                            <option value=" اعادة طباعة كارت الفحص الطبى"> اعادة طباعة كارت الفحص الطبى</option>
+                                                            <option value=" اعادة طباعة كارت الترحيل"> اعادة طباعة كارت الترحيل</option>
+                                                            <option value=" الغاء حضور شاب"> الغاء حضور شاب</option>
+                                                            <option value=" الغاء ترحيل شاب"> الغاء ترحيل شاب</option>
+                                                            <option value=" اعادة طباعة 110 جند"> اعادة طباعة 110 جند</option>
+                                                            <option value=" تعديل بيانات اساسية 34"> تعديل بيانات اساسية 34</option>
+                                                            <option value=" اعادة تصوير"> اعادة تصوير</option>
+                                                            <option value=" تعديل الاسم الاول"> تعديل الاسم الاول</option>
+                                                            <option value=" استبعاد طلبية"> استبعاد طلبية</option>
+                                                            <option value=" تعديل تاريخ الميلاد"> تعديل تاريخ الميلاد</option>
+                                                            <option value=" تعديل المعاملة التجنيدية"> تعديل المعاملة التجنيدية</option>
+                                                            <option value=" تصديق اسم مستخدم"> تصديق اسم مستخدم</option>
+
+                                                            </select>
+							                            </div>
+
+
+
+
+
+
+                                                </div>
+
+                                            <!-- form div-->
+                                            </div>
+                                        </form>
+                                    {% endif %}
+                                    <!-- 4- modal body div -->
+                                    </div>
+
+                                     <!-- Modal footer  -->
+                                    <div class="modal-footer ">
+                                        <button type="submit" class="btn btn-primary mx-4" form="new_record_form"   name="submit_new_record" value='2'>حفظ</button>
+                                        <button type="reset" class="btn btn-primary mx-4" form="new_record_form"  >بيان جديد</button>
+                                        <button type="button" class="btn btn-secondary mx-4" data-dismiss="modal" form="new_record_form">إغلاق</button>
+
+
+                                    </div>
+
+                                 <!--3- modal conent div-->
+                                </div>
+                            <!--2- modal dialog scrollale-->
+                            </div>
+                            <!--1- modal fade main one -->
+                        </div>
+
+                        <a href="{%  url 'archef:search'%}"> <input type="submit"  value =" بحث فى الأرشيف"  class="  m-1 btn-lg  bg-light  disabled text-center font-weight-bold" ></a>
+
+                    </div>
+
+
+                    <!-- Table to display decision records -->
+
+                <div   style="border:2px solid gray; padding:4px; padding:4px; ">
+                <table class='table table-striped' style="direction:rtl">
+
+
+                <head >
+                <tr class=" text-right bg-light  table-hover" >
+                    <td  scope="col"> م </td>
+                    <td  scope="col">سنة الميلاد </td>
+                    <td  scope="col">المركز </td>
+                    <td  scope="col">المسلسل</td>
+                    <td  scope="col">الاسم</td>
+                    <td  scope="col">الرقم القومى</td>
+                    <td  scope="col">نوع التعديل</td>
+
+                    <td  scope="col"></td>
+                    <td  scope="col"></td>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                {%if records %}
+                <!-- for loop here over all decision fields -->
+
+                  {%for record in records %}
+                    <tr class=" text-right  "  style="background-color: black; color:white;">
+                    <td  scope="col"> {{forloop.counter}}</td>
+                    <td  scope="col"> {{record.year}}</td>
+                    <td  scope="col">{{record.markaz}} </td>
+                    <td  scope="col">{{record.mosalsal}} </td>
+                    <td  scope="col">{{record.name}}</td>
+                    <td  scope="col"> {{record.national_num}}</td>
+                    <td  scope="col"> {{record.change_type}}</td>
+
+                    <td  scope="col"> <a href="{%  url 'archef:edit' record.id%}"> <input type="button"  value ="تعديل"  class=" btn-warning btn " ></a>
+                    <td  scope="col"> <a href="{%  url 'archef:delete' record.id%}"> <input type="button"  value ="حذف"  class=" btn-danger btn " ></a>
+
+                   </td>
+
+                    </tr>
+                    {%endfor%}
+
+                {%endif%}
+
+                </tbody>
+
+                </table>
+                {% if user_name %}
+                  <div id="user_div">   {{ user.first_name }} </div>
+                {% endif %}
+
+
+            </div>
+
+            </div>
+
+
+
+
+
+
+    </div><!-- /container -->
+
+
+
+
+{% endblock %}

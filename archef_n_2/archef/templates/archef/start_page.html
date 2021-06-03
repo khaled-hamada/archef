@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends "archef/base.html" %}
+{% load static %}
+
+
+
+{% block body_block %}
+          <!--  adjust window height and size on login -->
+          
+    
+        <div class="jumbotron" >
+
+                
+                 <div class="row">
+                    <a class=" m-2 btn-lg  btn-block   bg-light  disabled text-center font-weight-bold active" href="{% url 'archef:store' %}">تســجـيل قـرارت السيد مــدير المنطقة </a>
+                </div>
+
+                 <div class="row">
+                    <a  class="m-2 btn-lg  btn-block   bg-light  disabled text-center font-weight-bold active" href="{% url 'archef:search' %}">الإستعلام عن التعديلات بالثلاثــى</a>
+                </div>
+        
+                
+                
+           
+       
+    </div><!-- /container -->
+
+    
+
+
+{% endblock %}

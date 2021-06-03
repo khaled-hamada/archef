@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+{% extends "archef/base.html" %}
+{% load static %}
+
+
+
+{% block body_block %}
+        {% if record %}
+          <!--  adjust window height and size on login -->
+            <div style="direction:rtl" >
+
+                 <div class="row">
+                    <h3 class=" m-2 btn-lg  btn-block   bg-light  disabled text-center font-weight-bold" > الإستعلام عن التعديلات بالثلاثــى</h3>
+                </div>
+                <div class="row ml-auto" >
+                     <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > السنة </h3>
+                     <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > المركز </h3>
+                     <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold " > المسلسل</h3>
+                     <a href="{%  url 'archef:search'%}"> <input type="submit"  value ="بحث جديد"  class="  m-1 btn-lg  bg-light  disabled text-center font-weight-bold" ></a>
+                     <a href="{%  url 'archef:store'%}"> <input type="submit"  value =" تسجيل قرارت"  class="  m-1 btn-lg  bg-light  disabled text-center font-weight-bold" ></a>
+
+                </div>
+
+
+                <div class="row ml-auto form-group" >
+                    <input type='text' class='col-2 from-control m-1 text-right'  name='year' value = "{{record.year}}" readonly >
+                    <input type='text' class='col-2 from-control m-1 text-right' name='markaz' value = "{{record.markaz}}" readonly >
+                    <input type='text' class='col-2 from-control m-1 text-right'  name='mosalsal' value = "{{record.mosalsal}}" readonly>
+
+
+                </div>
+
+            </div>
+
+            <!-- display result of searc here -->
+
+            <div style="direction:rtl" >
+
+
+                    <div class="row ml-auto form-group mt-4">
+                         <label for="name" class="col-sm-2 bg-light  disabled text-center m-1" > الاسم </label>
+                        <input type='text' class='col-sm-6  form-control ' value = "{{record.name}}" readonly >
+
+
+                    </div>
+                     <div class="row ml-auto form-group mt-4">
+                         <label for="name" class="col-sm-2 bg-light  disabled text-center m-1" >الرقم القومى</label>
+                        <input type='number' class='col-sm-6  form-control ' value = "{{record.nat_id}}" readonly >
+
+
+                    </div>
+
+
+            </div>
+
+             <p class="text-right  " style="color: black; font-size:2em;"> التعديلات</p>
+
+
+            <div  >
+                <table class='table mt-4 table-striped' style="direction:rtl">
+
+
+                <head >
+                <tr class=" text-right bg-light table-hover" >
+                    <td  scope="col">رقم القرار</td>
+                    <td  scope="col">لسنة </td>
+                    <td  scope="col">تاريخ القرار</td>
+                    <td  scope="col">الفرع المختص</td>
+                    <td  scope="col">نوع التعديل</td>
+                    <td  scope="col"> معاينة صورة القرار </td>
+                </tr>
+                </thead>
+
+                <tbody>
+                <!-- for loop here over decision fields -->
+                  {% for record in records %}
+                    <tr class=" text-right  "  style="background-color: black; color:white;">
+                    <td  scope="col"> {{record.decision.dec_num}}</td>
+                    <td  scope="col">{{record.decision.dec_year}} </td>
+                    <td  scope="col">{{record.decision.dec_date}}</td>
+                    <td  scope="col">{{record.decision.related_part}}</td>
+                    <td  scope="col"> {{record.change_type}}</td>
+                     <!-- this will be a pop up form or modal to add new records to the decision -->
+                    {% if  record.decision.decision_file %}
+                    <td scope="col" >
+                         <a    target="_blank" href="{{ record.decision.decision_file.url }}">صورة القرار</a>
+                    </td>
+                    {% else %}
+                    <td  scope="col">  مسار الصورة على جهاز 33 :  {{record.decision.dec_num}}\{{record.decision.dec_year}}</td>
+                    {% endif %}
+                    </tr>
+                    {% endfor %}
+                    <!-- <tr class=" text-right  "  style="background-color: black; color:white;">
+                    <td  scope="col"> 1</td>
+                    <td  scope="col">34 </td>
+                    <td  scope="col">24/8/2020 </td>
+                    <td  scope="col">مجمع خدمات المواطنين </td>
+                    <td  scope="col"> بيانات أساسية 34</td>
+                    </tr>
+                    <tr class=" text-right  "  style="background-color: black; color:white;">
+                    <td  scope="col"> 1</td>
+                    <td  scope="col">34 </td>
+                    <td  scope="col">24/8/2020 </td>
+                    <td  scope="col">مجمع خدمات المواطنين </td>
+                    <td  scope="col"> بيانات أساسية 34</td>
+                    </tr> -->
+
+                </tbody>
+
+                </table>
+
+
+
+            </div>
+
+            {% else %}
+             <div  style="direction: rtl;" class="jumbotron">
+                <h2 class="text-center font-weight-bold ">  لا توجد اية بيانات   لهذا الثلاثى فى قاعدة البيانات برجاء التاكد من الرقم الثلاثى <h2> <br>
+                <a href="{%  url 'archef:search'%}"> <input type="submit"  value ="بحث جديد"  class="  m-1 btn-lg  bg-light  disabled text-center font-weight-bold" ></a>
+                <a href="{%  url 'archef:store'%}"> <input type="submit"  value =" تسجيل قرارت"  class="  m-1 btn-lg  bg-light  disabled text-center font-weight-bold" ></a>
+
+            </div>
+            {% endif %}
+
+
+
+
+
+
+
+
+
+{% endblock %}

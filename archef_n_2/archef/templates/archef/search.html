@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "archef/base.html" %}
+{% load static %}
+
+
+
+{% block body_block %}
+          <!--  adjust window height and size on login -->
+            <div style="direction:rtl" >
+
+                 <div class="row" >
+                    <h3 class=" m-2 btn-lg  btn-block   bg-light  disabled text-center font-weight-bold" > الإستعلام عن التعديلات بالثلاثــى</h3>
+                </div>
+                <div class="row ml-auto" >
+                     <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > السنة </h3>
+                     <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > المركز </h3>
+                     <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold " > المسلسل</h3>
+                </div>
+
+                <form method="post" target="_self">
+                  <div class="row ml-auto form-group" >
+                    {% csrf_token %}
+
+                    <input type='text' class='col-2 from-control m-1 text-right'  name='year' required >
+                    <input type='text' class='col-2 from-control m-1 text-right' name='markaz' required >
+                    <input type='text' class='col-2 from-control m-1 text-right'  name='mosalsal' required>
+                    <input type="submit"  value ="إستعلام"  class="  m-1 btn-lg  bg-light  disabled text-center font-weight-bold" >
+
+
+                </form>
+                <a href="{%  url 'archef:store'%}"> <input type="button"  value =" تسجيل قرارت"  class="  m-1 btn-lg  bg-light  disabled text-center font-weight-bold" ></a>
+                </div>
+            </div>
+
+
+
+{% endblock %}

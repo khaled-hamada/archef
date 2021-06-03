@@ -1,0 +1,21 @@
+
+<!-- Just a test page  dummy code -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+  </head>
+<body >
+    <form method='post'> 
+    {% csrf_token %}
+        <input  type='text' name='user_name' required><br>
+        <input  type='password' name='user_password' required><br>
+        <input type='submit' value='submit'>
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% extends "archef/base.html" %}
+{% load static %}
+
+
+
+{% block body_block %}
+       
+
+            
+             <div  style="direction: rtl;" class="jumbotron">
+                {% if decision_record %}
+                    <h2 class="text-center font-weight-bold "> هذا التعديل مسجل بالفعل فى القرار الحالى  <h2> <br>
+
+                {%elif decision %}
+                    <h2 class="text-center font-weight-bold "> يوجد بالفعل قرار بهذا الرقم تم تسجيله مسبقا  <h2> <br>
+                {%endif%}
+                
+                <a href="{%  url 'archef:store'%}"> <input type="submit"  value ="رجوع"  class="  m-1 btn-lg  bg-light  disabled text-center font-weight-bold" ></a>
+
+            </div>
+           
+
+
+
+
+
+
+
+
+
+{% endblock %}

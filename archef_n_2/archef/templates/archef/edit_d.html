@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+{% extends "archef/base.html" %}
+{% load static %}
+<script src="{% static 'archef/store.js' %}"></script>
+
+
+{% block body_block %}
+
+  <div class="container jumbotron " style="direction:rtl">
+
+    <!-- form model -->
+    <form method="post"  target="_self" enctype="multipart/form-data">
+    {%csrf_token%}
+        <div class="form-group">
+
+            <div class="row">
+                <label for="name" class="col-sm-2 bg-light  disabled text-center m-1" > رقم القرار </label>
+                <input  id ="name" name="decision_num" type='number'  value="{{decision.dec_num}}" class='col-sm-3  form-control-lg ml-4 '  required >
+
+
+                <label for="year" class="col-sm-2 btn-md bg-light  disabled text-center m-1" >لسنة  </label>
+                <input  id ="year"  name ="decision_year" type='number' class='col-sm-3  form-control-lg  ml-4' pattern="[0-9]{4}"  value="{{decision.dec_year}}"  >
+
+            </div>
+
+
+            <div class="row mr-2 form-group mt-2">
+
+                <label for="name" class="col-sm-3 bg-light  disabled text-center m-2" > تاريخ القرار </label>
+                <label for="year" class="col-sm-3 btn-md bg-light  disabled text-center m-2  " >الفرع المختص  </label>
+
+            </div>
+
+
+            <div class="row mr-2 form-group ">
+                    <input  id ="name" type='date'  name= "decision_date"class='col-sm-3 form-control-lg ml-4 '  >
+
+                    <!-- THis Will be a list for now after that it will be a text choosen manullay depend on user type -->
+                    <!-- <input  id ="year" type='text' class='col-sm-3 form-control-lg  ml-4'  value=""  >-->
+
+                    <div class="col-sm-3 form-control-lg  ml-4">
+                        <select class="form-control" name="part">
+                        <option value="{{decision.related_part}}" selected>{{decision.related_part}}</option>
+                        <option value="الصالة">الصالة</option>
+                        <option  value="المجمع" >المجمع</option>
+                        <option value="الانتقاء والتوجيه">الانتقاء</option>
+                        <option value="المعسكر">المعسكر</option>
+                        <option value=" قومسيون الطبى"> القومسيون الطبى</option>
+                        <option value=" الأمن "> الأمن</option>
+                        <option value=" القضاء"> القضاء</option>
+                        </select>
+                      </div>
+
+                   <label for="url" class="col-sm-2 btn-md bg-light  disabled text-center  " >صورة القرار</label>
+                    <input type="file" placeholder="نسخة القرار" class=" btn-md  col-sm-2" id="url" name="url" > 
+
+
+
+
+            </div>
+            <div class="row mr-2 form-group ">
+                <input  id ="name" type='text' class='col-sm-3  form-control-lg ml-4'  value="{{decision.dec_date}}" readonly >
+                <a  align="center"  class="form-control col-sm-3  btn-info btn-lg m-1" target="_blank" href="{{ decision.decision_file.url }}"> معاينة صورة القرار </a>
+            </div>
+        <!-- form div-->
+        </div>
+
+        <div class="row form-group " style ="margin-right:40%">
+          <input type="submit"  class="btn btn-sm btn-primary m-2" name="submit" value="حفظ التعديل">
+
+          <a  class="btn btn-sm btn-danger m-2" href="{% url 'archef:store'  %}">رجوع</a>
+
+          {% if success %}
+            <p class="text-danger  m-2 " style="font-size:1.5em;"> تم التعديل بنجاح</p>
+          {%endif%}
+
+        </div>
+
+
+    </form>
+
+  </div>
+
+
+
+{% endblock %}

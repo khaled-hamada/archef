@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% extends "archef/base.html" %}
+{% load static %}
+<script src="{% static 'archef/store.js' %}"></script>
+
+
+{% block body_block %}
+
+  <div class="container jumbotron " style="direction:rtl">
+
+    <form method="post" id="new_record_form" target="_self"  >
+    {%csrf_token%}
+        <div class="form-group">
+
+            <div class="row mr-4" >
+                <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > السنة </h3>
+                <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > المركز </h3>
+                <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold " > المسلسل</h3>
+            </div>
+
+
+
+            <div class="row mr-4 form-group" >
+                <input type='number' class='col-2 form-control m-1 text-right'  name='year'  form ="new_record_form" value="{{record.year}}"  required  >
+                <input type='number' class='col-2 form-control m-1 text-right' name='markaz' form ="new_record_form"   value="{{record.markaz}}"  required >
+                <input type='number' class='col-2 form-control m-1 text-right'  name='mosalsal'form ="new_record_form"  value="{{record.mosalsal}}"  required>
+                <!-- It will be added later -->
+                <!-- <input type="submit"  name='submit_sub_form' value ="بحث"  class="  m-1 btn  bg-light   text-center font-weight-bold"  form="form_sub"> -->
+
+
+            </div>
+            <div class="row  mr-2 form-group" >
+                <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > الإسم </h3>
+                <input type='text' class=' col-6 form-control m-1 text-right'  name='m_name' id="m_name"  value="{{record.name}}" required >
+
+            </div>
+
+            <div class="row  mr-2 form-group" >
+                <h3 class=" col-2 m-1 btn-lg  bg-light  disabled text-center font-weight-bold" > الرقم القومى </h3>
+                <input type='number' class=' col-6 form-control m-1 text-right'  name='national_num' id="national_num"   value="{{record.national_num}}" required >
+            </div>
+
+            <div class="row mr-2 form-group ">
+
+                    <h3 class=" col-sm-3 m-1 btn-lg  bg-light  disabled text-center font-weight-bold " > نوع التعديل</h3>
+
+                    <!--  NO NO ,THis Will be a list for now after that it will be a text choosen manullay depend on user type -->
+
+                    <div class="col-sm-6 form-control-lg  ml-4">
+                        <select class="form-control" name="change_type" required>
+                        {%if record.change_type%}
+                              <option value="{{record.change_type}}" selected>  {{record.change_type}} </option>
+                        {%endif%}
+                        <option value="تغيير سلاح "> تغيير سلاح </option>
+                        <option value="تسجيل بيانات 34">تسجيل بيانات 34</option>
+                        <option value=" فك بصمة"> فك بصمة</option>
+                        <option value="تغير الحالة">تغير الحالة</option>
+                        <option value="تسجيل بيانات عدم اللياقة الطبية">تسجيل بيانات عدم اللياقة الطبية</option>
+                        <option value=" اعادة طباعة 1 س "> اعادة طباعة 1 س</option>
+                        <option value=" تعديل ميعاد اللجنة العليا"> تعديل ميعاد اللجنة العليا</option>
+                        <option value=" اعادة طباعة كارت الفحص الطبى"> اعادة طباعة كارت الفحص الطبى</option>
+                        <option value=" اعادة طباعة كارت الترحيل"> اعادة طباعة كارت الترحيل</option>
+                        <option value=" الغاء حضور شاب"> الغاء حضور شاب</option>
+                        <option value=" الغاء ترحيل شاب"> الغاء ترحيل شاب</option>
+                        <option value=" اعادة طباعة 110 جند"> اعادة طباعة 110 جند</option>
+                        <option value=" تعديل بيانات اساسية 34"> تعديل بيانات اساسية 34</option>
+                        <option value=" اعادة تصوير"> اعادة تصوير</option>
+                        <option value=" تعديل الاسم الاول"> تعديل الاسم الاول</option>
+                        <option value=" استبعاد طلبية"> استبعاد طلبية</option>
+                        <option value=" تعديل تاريخ الميلاد"> تعديل تاريخ الميلاد</option>
+                        <option value=" تعديل المعاملة التجنيدية"> تعديل المعاملة التجنيدية</option>
+                        <option value=" تصديق اسم مستخدم"> تصديق اسم مستخدم</option>
+
+                        </select>
+      </div>
+
+
+
+
+
+
+            </div>
+
+        <!-- form div-->
+        <div class="row form-group " style ="margin-right:40%">
+          <input type="submit"  class="btn btn-sm btn-primary m-2" name="submit" value="حفظ التعديل">
+
+          <a  class="btn btn-sm btn-danger m-2" href="{% url 'archef:store'  %}">رجوع</a>
+
+          {% if success %}
+            <p class="text-danger  m-2 " style="font-size:1.5em;"> تم التعديل بنجاح</p>
+          {%endif%}
+
+        </div>
+        </div>
+
+    </form>
+
+  </div>
+
+
+
+{% endblock %}
